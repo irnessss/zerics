@@ -2,190 +2,182 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>zerics — 2048</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>zerics — Dashboard</title>
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  * { margin:0; padding:0; box-sizing:border-box; }
   body {
     font-family: system-ui, -apple-system, sans-serif;
     background:#0f0f0f; color:#e8e8e8;
-    min-height:100vh; display:flex; flex-direction:column;
-    align-items:center; justify-content:center;
-    user-select:none; touch-action:none; padding:1rem; gap:1rem;
+    min-height:100vh; padding:1rem;
   }
-  header { width:100%; max-width:400px; display:flex; justify-content:space-between; align-items:center; }
-  h1 { font-size:1rem; letter-spacing:.2em; color:#666; text-transform:uppercase; }
-  .scores { display:flex; gap:.5rem; }
-  .score { background:#1e1e1e; border-radius:8px; padding:.4rem .8rem; text-align:center; min-width:70px; }
-  .score span { display:block; font-size:.6rem; color:#777; letter-spacing:.1em; text-transform:uppercase; }
-  .score b { font-size:1.1rem; }
+  .wrap { max-width:900px; margin:0 auto; display:flex; flex-direction:column; gap:1rem; }
+  header { display:flex; justify-content:space-between; align-items:baseline; padding:.5rem 0; }
+  h1 { font-size:1rem; letter-spacing:.25em; color:#666; text-transform:uppercase; }
+  #clock { font-size:1.4rem; font-weight:600; font-variant-numeric:tabular-nums; }
 
-  #board {
-    background:#1a1a1a; border-radius:10px; padding:8px;
-    display:grid; grid-template-columns:repeat(4,1fr); gap:8px;
-    width:min(90vw, 400px); aspect-ratio:1;
-  }
-  .cell {
-    background:#242424; border-radius:6px;
-    display:flex; align-items:center; justify-content:center;
-    font-weight:700; font-size:clamp(1rem, 6vw, 2rem);
-    transition: transform .1s;
-  }
-  .new { animation:pop .15s ease; }
-  @keyframes pop { from { transform:scale(.5); } to { transform:scale(1); } }
+  .grid { display:grid; grid-template-columns:1fr; gap:1rem; }
+  @media (min-width:700px) { .grid { grid-template-columns:1fr 1fr; } }
 
-  .v2    { background:#3a3730; color:#bbb; }
-  .v4    { background:#413c30; color:#ccc; }
-  .v8    { background:#7a4a28; color:#fff; }
-  .v16   { background:#8a5024; color:#fff; }
-  .v32   { background:#96421f; color:#fff; }
-  .v64   { background:#a33418; color:#fff; }
-  .v128  { background:#9b8d3a; color:#fff; font-size:clamp(.9rem,5vw,1.7rem); }
-  .v256  { background:#a09033; color:#fff; font-size:clamp(.9rem,5vw,1.7rem); }
-  .v512  { background:#a5932b; color:#fff; font-size:clamp(.9rem,5vw,1.7rem); }
-  .v1024 { background:#aa9522; color:#fff; font-size:clamp(.7rem,4vw,1.4rem); }
-  .v2048 { background:#b09800; color:#fff; font-size:clamp(.7rem,4vw,1.4rem); box-shadow:0 0 20px #b0980066; }
-  .big   { background:#2d2a4a; color:#fff; font-size:clamp(.7rem,4vw,1.4rem); }
+  .card {
+    background:#1a1a1a; border:1px solid #262626; border-radius:14px;
+    padding:1.2rem; display:flex; flex-direction:column; gap:.9rem;
+  }
+  .city { display:flex; justify-content:space-between; align-items:baseline; }
+  .city h2 { font-size:1.1rem; }
+  .tz { color:#777; font-size:.85rem; font-variant-numeric:tabular-nums; }
 
-  #msg {
-    position:fixed; inset:0; background:#0f0f0fe6;
-    display:none; flex-direction:column; align-items:center; justify-content:center; gap:1rem;
+  .now { display:flex; align-items:center; gap:1rem; }
+  .now .icon { font-size:3rem; line-height:1; }
+  .now .temp { font-size:2.6rem; font-weight:700; }
+  .now .desc { color:#999; font-size:.9rem; }
+
+  .facts { display:grid; grid-template-columns:repeat(2,1fr); gap:.5rem .8rem; font-size:.85rem; }
+  .facts div { color:#aaa; }
+  .facts b { color:#e8e8e8; font-weight:600; }
+
+  .aqi { display:inline-block; padding:.1rem .5rem; border-radius:6px; font-weight:600; }
+
+  .days { display:flex; gap:.4rem; }
+  .day {
+    flex:1; background:#222; border-radius:8px; padding:.5rem .2rem;
+    text-align:center; font-size:.75rem; color:#999;
   }
-  #msg.show { display:flex; }
-  #msg h2 { font-size:2rem; }
-  button {
-    background:#e8e8e8; color:#0f0f0f; border:none; border-radius:8px;
-    padding:.7rem 1.5rem; font-size:1rem; font-weight:600; cursor:pointer;
-    font-family:inherit;
-  }
-  footer { color:#555; font-size:.8rem; text-align:center; }
+  .day .di { font-size:1.2rem; margin:.2rem 0; }
+  .day b { color:#e8e8e8; }
+
+  .error { color:#e07a7a; font-size:.9rem; }
+
+  a.card { text-decoration:none; color:inherit; transition:border-color .15s; }
+  a.card:hover { border-color:#444; }
+  .gamecard { flex-direction:row; align-items:center; justify-content:space-between; }
+  .gamecard .t { font-size:1.1rem; font-weight:600; }
+  .gamecard .s { color:#777; font-size:.85rem; margin-top:.2rem; }
+  .gamecard .arrow { font-size:1.5rem; color:#666; }
+
+  footer { text-align:center; color:#555; font-size:.75rem; padding:.5rem 0; }
 </style>
 </head>
 <body>
+<div class="wrap">
 
 <header>
   <h1>zerics</h1>
-  <div class="scores">
-    <div class="score"><span>Score</span><b id="score">0</b></div>
-    <div class="score"><span>Best</span><b id="best">0</b></div>
-  </div>
+  <div id="clock">--:--</div>
 </header>
 
-<div id="board"></div>
+<div class="grid">
+  <div class="card" id="card-erbach"></div>
+  <div class="card" id="card-bihac"></div>
+</div>
 
-<footer>Wischen oder Pfeiltasten</footer>
+<a class="card gamecard" href="/2048.html">
+  <div>
+    <div class="t">2048 spielen</div>
+    <div class="s">Der Klassiker — wischen und verschmelzen</div>
+  </div>
+  <div class="arrow">→</div>
+</a>
 
-<div id="msg">
-  <h2 id="msgText">Game Over</h2>
-  <button id="restart">Neues Spiel</button>
+<footer>Wetterdaten: open-meteo.com · aktualisiert alle 15 Min.</footer>
+
 </div>
 
 <script>
-const boardEl = document.getElementById('board');
-const scoreEl = document.getElementById('score');
-const bestEl  = document.getElementById('best');
-const msgEl   = document.getElementById('msg');
-const msgText = document.getElementById('msgText');
+const CITIES = [
+  { id:'card-erbach', name:'Erbach', sub:'Odenwald · DE', lat:49.6558, lon:8.9944, tz:'Europe/Berlin' },
+  { id:'card-bihac',  name:'Bihać',  sub:'Bosnien',       lat:44.8169, lon:15.8708, tz:'Europe/Sarajevo' },
+];
 
-let grid, score = 0, best = 0, won = false;
+const WMO = {
+  0:['☀️','Klar'],1:['🌤️','Überw. klar'],2:['⛅','Teils bewölkt'],3:['☁️','Bedeckt'],
+  45:['🌫️','Nebel'],48:['🌫️','Reifnebel'],
+  51:['🌦️','Leichter Niesel'],53:['🌦️','Niesel'],55:['🌧️','Starker Niesel'],
+  61:['🌧️','Leichter Regen'],63:['🌧️','Regen'],65:['🌧️','Starkregen'],
+  66:['🌧️','Gefr. Regen'],67:['🌧️','Gefr. Regen'],
+  71:['🌨️','Leichter Schnee'],73:['🌨️','Schnee'],75:['❄️','Starker Schnee'],77:['❄️','Schneegriesel'],
+  80:['🌦️','Leichte Schauer'],81:['🌧️','Schauer'],82:['⛈️','Starke Schauer'],
+  85:['🌨️','Schneeschauer'],86:['🌨️','Schneeschauer'],
+  95:['⛈️','Gewitter'],96:['⛈️','Gewitter + Hagel'],99:['⛈️','Schweres Gewitter'],
+};
+const wmo = c => WMO[c] || ['🌡️','—'];
 
-function init() {
-  grid = Array.from({length:4}, () => Array(4).fill(0));
-  score = 0; won = false;
-  msgEl.classList.remove('show');
-  addTile(); addTile();
-  draw();
+function aqiInfo(v) {
+  if (v == null) return ['—','#333'];
+  if (v <= 20) return ['gut','#2d6a3f'];
+  if (v <= 40) return ['okay','#5a7a2d'];
+  if (v <= 60) return ['mäßig','#8a7a25'];
+  if (v <= 80) return ['schlecht','#96421f'];
+  return ['sehr schlecht','#a33418'];
 }
 
-function addTile() {
-  const empty = [];
-  for (let r=0;r<4;r++) for (let c=0;c<4;c++) if (!grid[r][c]) empty.push([r,c]);
-  if (!empty.length) return;
-  const [r,c] = empty[Math.floor(Math.random()*empty.length)];
-  grid[r][c] = Math.random() < 0.9 ? 2 : 4;
-  return [r,c];
+function fmtTime(iso, tz) {
+  return new Date(iso).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',timeZone:tz});
 }
 
-function draw(newPos) {
-  boardEl.innerHTML = '';
-  for (let r=0;r<4;r++) for (let c=0;c<4;c++) {
-    const v = grid[r][c];
-    const d = document.createElement('div');
-    d.className = 'cell';
-    if (v) {
-      d.textContent = v;
-      d.classList.add(v <= 2048 ? 'v'+v : 'big');
-      if (newPos && newPos[0]===r && newPos[1]===c) d.classList.add('new');
-    }
-    boardEl.appendChild(d);
+async function loadCity(c) {
+  const el = document.getElementById(c.id);
+  el.innerHTML = '<div class="city"><h2>'+c.name+'</h2></div><div style="color:#777">Lade…</div>';
+  try {
+    const wURL = `https://api.open-meteo.com/v1/forecast?latitude=${c.lat}&longitude=${c.lon}`
+      + `&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m`
+      + `&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset`
+      + `&timezone=${encodeURIComponent(c.tz)}&forecast_days=5`;
+    const aURL = `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${c.lat}&longitude=${c.lon}&current=european_aqi`;
+
+    const [w, a] = await Promise.all([
+      fetch(wURL).then(r => r.json()),
+      fetch(aURL).then(r => r.json()).catch(() => null),
+    ]);
+
+    const cur = w.current, d = w.daily;
+    const [ic, desc] = wmo(cur.weather_code);
+    const aqiVal = a?.current?.european_aqi;
+    const [aqiTxt, aqiCol] = aqiInfo(aqiVal);
+
+    const days = d.time.map((t,i) => {
+      const [di] = wmo(d.weather_code[i]);
+      const label = i===0 ? 'Heute' : new Date(t).toLocaleDateString('de-DE',{weekday:'short'});
+      return `<div class="day">${label}<div class="di">${di}</div><b>${Math.round(d.temperature_2m_max[i])}°</b> ${Math.round(d.temperature_2m_min[i])}°</div>`;
+    }).join('');
+
+    el.innerHTML = `
+      <div class="city"><h2>${c.name} <span style="color:#666;font-size:.8rem">${c.sub}</span></h2>
+        <span class="tz" data-tz="${c.tz}">--:--</span></div>
+      <div class="now">
+        <div class="icon">${ic}</div>
+        <div>
+          <div class="temp">${Math.round(cur.temperature_2m)}°C</div>
+          <div class="desc">${desc} · gefühlt ${Math.round(cur.apparent_temperature)}°</div>
+        </div>
+      </div>
+      <div class="facts">
+        <div>Wind <b>${Math.round(cur.wind_speed_10m)} km/h</b></div>
+        <div>Feuchte <b>${cur.relative_humidity_2m}%</b></div>
+        <div>Sonne ↑ <b>${fmtTime(d.sunrise[0], c.tz)}</b></div>
+        <div>Sonne ↓ <b>${fmtTime(d.sunset[0], c.tz)}</b></div>
+        <div>Luft <span class="aqi" style="background:${aqiCol}">${aqiVal != null ? Math.round(aqiVal)+' · '+aqiTxt : '—'}</span></div>
+      </div>
+      <div class="days">${days}</div>`;
+  } catch (e) {
+    el.innerHTML = '<div class="city"><h2>'+c.name+'</h2></div><div class="error">Daten konnten nicht geladen werden.</div>';
   }
-  scoreEl.textContent = score;
-  if (score > best) best = score;
-  bestEl.textContent = best;
 }
 
-function slide(row) {
-  let arr = row.filter(v => v);
-  for (let i=0;i<arr.length-1;i++) {
-    if (arr[i] === arr[i+1]) {
-      arr[i] *= 2;
-      score += arr[i];
-      if (arr[i] === 2048 && !won) { won = true; msgText.textContent = 'Gewonnen! 🎉'; msgEl.classList.add('show'); }
-      arr.splice(i+1,1);
-    }
-  }
-  while (arr.length < 4) arr.push(0);
-  return arr;
+function tick() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  document.querySelectorAll('.tz').forEach(s => {
+    s.textContent = now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',timeZone:s.dataset.tz});
+  });
 }
 
-function rotate(g) {
-  return g[0].map((_,i) => g.map(row => row[i]).reverse());
-}
-
-function move(dir) {
-  const before = JSON.stringify(grid);
-  let times = {left:0, up:1, right:2, down:3}[dir];
-  for (let i=0;i<times;i++) grid = rotate(grid);
-  grid = grid.map(slide);
-  for (let i=0;i<(4-times)%4;i++) grid = rotate(grid);
-
-  if (JSON.stringify(grid) !== before) {
-    const pos = addTile();
-    draw(pos);
-    if (isOver()) { msgText.textContent = 'Game Over'; msgEl.classList.add('show'); }
-  }
-}
-
-function isOver() {
-  for (let r=0;r<4;r++) for (let c=0;c<4;c++) {
-    if (!grid[r][c]) return false;
-    if (c<3 && grid[r][c]===grid[r][c+1]) return false;
-    if (r<3 && grid[r][c]===grid[r+1][c]) return false;
-  }
-  return true;
-}
-
-document.addEventListener('keydown', e => {
-  const map = {ArrowLeft:'left', ArrowRight:'right', ArrowUp:'up', ArrowDown:'down'};
-  if (map[e.key]) { e.preventDefault(); move(map[e.key]); }
-});
-
-let sx=0, sy=0;
-document.addEventListener('touchstart', e => {
-  sx = e.touches[0].clientX; sy = e.touches[0].clientY;
-}, {passive:true});
-document.addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - sx;
-  const dy = e.changedTouches[0].clientY - sy;
-  if (Math.abs(dx) < 30 && Math.abs(dy) < 30) return;
-  if (Math.abs(dx) > Math.abs(dy)) move(dx > 0 ? 'right' : 'left');
-  else move(dy > 0 ? 'down' : 'up');
-}, {passive:true});
-
-document.getElementById('restart').addEventListener('click', init);
-
-init();
+function loadAll() { CITIES.forEach(loadCity); }
+loadAll();
+setInterval(loadAll, 15*60*1000);
+tick();
+setInterval(tick, 1000);
 </script>
-
 </body>
 </html>
