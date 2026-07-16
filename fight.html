@@ -213,9 +213,9 @@ const CHARS = {
 };
 
 const DIFF = {
-  easy:   { react:0.4, aggro:0.35, dmg:5 },
-  normal: { react:0.7, aggro:0.6,  dmg:7 },
-  hard:   { react:0.9, aggro:0.8,  dmg:8 },
+  easy:   { react:0.15, aggro:0.15, dmg:3, pause:70 },
+  normal: { react:0.4,  aggro:0.35, dmg:5, pause:45 },
+  hard:   { react:0.7,  aggro:0.6,  dmg:7, pause:25 },
 };
 
 const GRAV = 0.55, JUMP = -14, SPEED = 0.8;
@@ -311,11 +311,11 @@ function aiThink() {
   const d = DIFF[diff];
   const dist = Math.abs(ai.x - player.x);
 
-  if (ai.meter >= METER_MAX && ai.spCool <= 0 && Math.random() < d.react) {
+  if (ai.meter >= METER_MAX && ai.spCool <= 0 && Math.random() < d.react * 0.15) {
     special(ai, player); return;
   }
   if (ai.think > 0) { ai.think--; return; }
-  ai.think = 18 + Math.random()*25;
+  ai.think = DIFF[diff].pause + Math.random()*30;
 
   const incoming = projectiles.some(pr => pr.owner === player && Math.abs(pr.x - ai.x) < 30);
   if (incoming && Math.random() < d.react) { ai.intent = 'jump'; return; }
