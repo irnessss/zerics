@@ -181,34 +181,71 @@ function tick() {
   });
 }
 
-function loadAll() { CITIES.forEach(loadCity); }
-loadAll();
-setInterval(loadAll, 15*60*1000);
-tick();
-setInterval(tick, 1000);
- async function loadFuel() {
+let currentFuel = 'e5';
+
+async function loadFuel() {
   const el = document.getElementById('card-fuel');
-  el.innerHTML = '<div class="city"><h2>Sprit E5</h2></div><div style="color:#777">Lade…</div>';
+  const stationsBox = el.querySelector('#fuel-stations') || el;
+  stationsBox.innerHTML = '<div style="color:#777">Lade…</div>';
+
   try {
-    const res = await fetch('/api/fuel-prices?fuel=e5&radius=5');
+    const res = await fetch('/api/fuel-prices?fuel=' + currentFuel + '&radius=5');
     const data = await res.json();
+
     if (!data.ok) {
-      el.innerHTML = '<div class="city"><h2>Sprit E5</h2></div><div style="color:#777">Noch nicht verfügbar.</div>';
+      stationsBox.innerHTML = '<div style="color:#777">Noch nicht verfügbar.</div>';
       return;
     }
-    const rows = data.stations.filter(s => s.price != null).slice(0, 5).map(s =>
-      `<div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #262626">
-        <span>${s.name} <span style="color:#666">· ${s.distKm} km</span></span>
-        <b>${s.price.toFixed(3)} €</b>
-      </div>`
-    ).join('');
-    el.innerHTML = `
-      <div class="city"><h2>Sprit E5 <span style="color:#666;font-size:.8rem">Erbach, ${data.radiusKm} km</span></h2></div>
-      ${rows}
-      <div style="color:#555;font-size:.75rem;margin-top:.5rem">${data.attribution}</div>`;
+
+    const rows = data.stations
+      .filter(s => s.price != null)
+      .slice(0, 6)
+      .map(s => `
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:.45rem 0;border-bottom:1px solid #262626">
+          <div>
+            <div>${s.name}</div>
+            <div style="color:#666;font-size:.75rem">${s.street}, ${s.place} · ${s.distKm} km</div>
+          </div>
+          <b style="font-size:1.05rem">${s.price.toFixed(3)} €</b>
+        </div>`)
+      .join('');
+
+    stationsBox.innerHTML = rows || '<div style="color:#777">Keine Preise gerade verfügbar.</div>';
+    document.getElementById('fuel-attribution').textContent = data.attribution;
   } catch {
-    el.innerHTML = '<div class="city"><h2>Sprit E5</h2></div><div class="error">Daten konnten nicht geladen werden.</div>';
+    stationsBox.innerHTML = '<div class="error">Daten konnten nicht geladen werden.</div>';
   }
+}
+
+function renderFuelCard() {
+  const el = document.getElementById('card-fuel');
+  el.innerHTML = `
+    <div class="city">
+      <h2>Sprit <span style="color:#666;font-size:.8rem">Erbach, 5 km</span></h2>
+    </div>
+    <div id="fuel-tabs" style="display:flex;gap:.4rem;margin:.3rem 0 .2rem">
+      <button data-fuel="e5" class="fuel-tab">E5</button>
+      <button data-fuel="e10" class="fuel-tab">E10</button>
+      <button data-fuel="diesel" class="fuel-tab">Diesel</button>
+    </div>
+    <div id="fuel-stations"></div>
+    <div id="fuel-attribution" style="color:#555;font-size:.75rem;margin-top:.5rem"></div>`;
+
+  document.querySelectorAll('.fuel-tab').forEach(btn => {
+    btn.style.cssText = 'flex:1;padding:.4rem;border-radius:8px;border:1px solid #333;background:#1a1a1a;color:#ccc;cursor:pointer;font:inherit';
+    btn.addEventListener('click', () => {
+      currentFuel = btn.dataset.fuel;
+      document.querySelectorAll('.fuel-tab').forEach(b => b.style.background = '#1a1a1a');
+      btn.style.background = '#333';
+      loadFuel();
+    });
+  });
+  document.querySelector('.fuel-tab[data-fuel="e5"]').style.background = '#333';
+}
+
+renderFuelCard();
+loadFuel();
+setInterval(loadFuel, 15 * 60 * 1000);
 }
 loadFuel();
 setInterval(loadFuel, 15*60*1000);
