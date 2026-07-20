@@ -171,7 +171,6 @@ async function loadCity(c) {
     el.innerHTML = '<div class="city"><h2>'+c.name+'</h2></div><div class="error">Daten konnten nicht geladen werden.</div>';
   }
 }
-
 function tick() {
   const now = new Date();
   document.getElementById('clock').textContent =
@@ -180,6 +179,8 @@ function tick() {
     s.textContent = now.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit',timeZone:s.dataset.tz});
   });
 }
+
+function loadAll() { CITIES.forEach(loadCity); }
 
 let currentFuel = 'e5';
 
@@ -243,10 +244,12 @@ function renderFuelCard() {
   document.querySelector('.fuel-tab[data-fuel="e5"]').style.background = '#333';
 }
 
+loadAll();
+setInterval(loadAll, 15*60*1000);
+tick();
+setInterval(tick, 1000);
+
 renderFuelCard();
-loadFuel();
-setInterval(loadFuel, 15 * 60 * 1000);
-}
 loadFuel();
 setInterval(loadFuel, 15*60*1000);
 </script>
