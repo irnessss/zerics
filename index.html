@@ -70,7 +70,7 @@
   <div class="card" id="card-erbach"></div>
   <div class="card" id="card-bihac"></div>
 </div>
-
+<div class="card" id="card-fuel"></div>
 <a class="card gamecard" href="/2048.html">
   <div>
     <div class="t">2048 spielen</div>
@@ -186,6 +186,32 @@ loadAll();
 setInterval(loadAll, 15*60*1000);
 tick();
 setInterval(tick, 1000);
+ async function loadFuel() {
+  const el = document.getElementById('card-fuel');
+  el.innerHTML = '<div class="city"><h2>Sprit E5</h2></div><div style="color:#777">Lade…</div>';
+  try {
+    const res = await fetch('/api/fuel-prices?fuel=e5&radius=5');
+    const data = await res.json();
+    if (!data.ok) {
+      el.innerHTML = '<div class="city"><h2>Sprit E5</h2></div><div style="color:#777">Noch nicht verfügbar.</div>';
+      return;
+    }
+    const rows = data.stations.slice(0, 5).map(s =>
+      `<div style="display:flex;justify-content:space-between;padding:.3rem 0;border-bottom:1px solid #262626">
+        <span>${s.name} <span style="color:#666">· ${s.distKm} km</span></span>
+        <b>${s.price.toFixed(3)} €</b>
+      </div>`
+    ).join('');
+    el.innerHTML = `
+      <div class="city"><h2>Sprit E5 <span style="color:#666;font-size:.8rem">Erbach, ${data.radiusKm} km</span></h2></div>
+      ${rows}
+      <div style="color:#555;font-size:.75rem;margin-top:.5rem">${data.attribution}</div>`;
+  } catch {
+    el.innerHTML = '<div class="city"><h2>Sprit E5</h2></div><div class="error">Daten konnten nicht geladen werden.</div>';
+  }
+}
+loadFuel();
+setInterval(loadFuel, 15*60*1000);
 </script>
 </body>
 </html>
