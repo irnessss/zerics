@@ -42,157 +42,115 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .3rem .4rem 1rem;
+    padding: .3rem .4rem .2rem;
   }
   .brand { display: flex; align-items: center; gap: .65rem; }
-  .brand img {
-    height: 28px; width: 28px;
-    mix-blend-mode: screen;
-    object-fit: contain;
-  }
+  .brand img { height: 28px; width: 28px; mix-blend-mode: screen; object-fit: contain; }
   .brand span {
-    font-size: .85rem;
-    font-weight: 600;
-    letter-spacing: .3em;
-    text-transform: uppercase;
+    font-size: .85rem; font-weight: 600;
+    letter-spacing: .3em; text-transform: uppercase;
   }
   #clock {
-    font-size: .95rem;
-    font-weight: 400;
-    font-variant-numeric: tabular-nums;
-    color: var(--dim);
+    font-size: .95rem; font-variant-numeric: tabular-nums; color: var(--dim);
   }
+
+  /* ---------- Standortleiste ---------- */
+  .locbar {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: .8rem; flex-wrap: wrap; padding: 0 .4rem .6rem;
+  }
+  .locbar .current {
+    font-size: .82rem; color: var(--muted);
+    display: flex; align-items: center; gap: .4rem;
+  }
+  .locbar .current .pin { color: var(--dim); }
+  .locbtn {
+    border: 1px solid var(--card-edge); background: var(--card);
+    color: var(--muted); font: inherit; font-size: .78rem; font-weight: 500;
+    padding: .42rem .9rem; border-radius: 999px; cursor: pointer;
+    transition: border-color .18s, color .18s, background .18s;
+  }
+  .locbtn:hover { border-color: var(--card-edge-hover); color: var(--ink); }
+  .locbtn.active { background: var(--ink); color: #0a0a0c; border-color: var(--ink); }
+  .locbtn:disabled { opacity: .5; cursor: default; }
+  .locnote { font-size: .76rem; color: var(--dim); width: 100%; }
+  .locnote.warn { color: #c08a83; }
 
   /* ---------- Karten ---------- */
   .card {
-    background: var(--card);
-    border: 1px solid var(--card-edge);
-    border-radius: var(--radius);
-    padding: 1.5rem 1.6rem;
+    background: var(--card); border: 1px solid var(--card-edge);
+    border-radius: var(--radius); padding: 1.5rem 1.6rem;
     transition: border-color .2s;
   }
-
   .grid2 { display: grid; grid-template-columns: 1fr; gap: .9rem; }
   @media (min-width: 720px) { .grid2 { grid-template-columns: 1fr 1fr; } }
 
   .cardlabel {
-    font-size: .74rem;
-    font-weight: 500;
-    letter-spacing: .14em;
-    text-transform: uppercase;
-    color: var(--dim);
+    font-size: .74rem; font-weight: 500; letter-spacing: .14em;
+    text-transform: uppercase; color: var(--dim);
   }
 
   /* ---------- Wetter Hero ---------- */
-  .hero .top {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-  }
+  .hero .top { display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; }
   .hero .temp {
-    font-size: clamp(4rem, 13vw, 5.6rem);
-    font-weight: 200;
-    line-height: 1;
-    letter-spacing: -.035em;
-    margin-top: .5rem;
+    font-size: clamp(4rem, 13vw, 5.6rem); font-weight: 200;
+    line-height: 1; letter-spacing: -.035em; margin-top: .5rem;
   }
   .hero .cond { color: var(--muted); font-size: 1rem; margin-top: .2rem; }
   .hero .side {
-    text-align: right;
-    font-size: .82rem;
-    color: var(--dim);
-    line-height: 1.9;
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
+    text-align: right; font-size: .82rem; color: var(--dim);
+    line-height: 1.9; font-variant-numeric: tabular-nums; flex-shrink: 0;
   }
   .hero .side b { color: var(--muted); font-weight: 500; }
 
   .forecast {
-    display: flex;
-    margin-top: 1.4rem;
-    padding-top: 1.2rem;
+    display: flex; margin-top: 1.4rem; padding-top: 1.2rem;
     border-top: 1px solid var(--card-edge);
   }
-  .forecast .day {
-    flex: 1;
-    text-align: center;
-    font-size: .75rem;
-    color: var(--dim);
-  }
+  .forecast .day { flex: 1; text-align: center; font-size: .75rem; color: var(--dim); }
   .forecast .sym { font-size: 1rem; color: var(--muted); margin: .3rem 0 .15rem; }
   .forecast b { color: var(--ink); font-weight: 500; }
 
-  /* ---------- Bihać kompakt ---------- */
+  /* ---------- Bihać ---------- */
   .mini { display: flex; flex-direction: column; gap: .9rem; }
-  .mini .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 1rem;
-  }
-  .mini .temp {
-    font-size: 3rem;
-    font-weight: 200;
-    line-height: 1;
-    letter-spacing: -.03em;
-  }
+  .mini .row { display: flex; justify-content: space-between; align-items: flex-end; gap: 1rem; }
+  .mini .temp { font-size: 3rem; font-weight: 200; line-height: 1; letter-spacing: -.03em; }
   .mini .cond { color: var(--muted); font-size: .9rem; margin-top: .3rem; }
   .mini .side {
-    text-align: right;
-    font-size: .82rem;
-    color: var(--dim);
-    line-height: 1.9;
-    font-variant-numeric: tabular-nums;
+    text-align: right; font-size: .82rem; color: var(--dim);
+    line-height: 1.9; font-variant-numeric: tabular-nums;
   }
   .mini .side b { color: var(--muted); font-weight: 500; }
 
   /* ---------- Sprit ---------- */
   .fuelhead {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: .9rem;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1rem; flex-wrap: wrap; margin-bottom: .9rem;
   }
-  .seg {
-    display: flex;
-    background: rgba(255, 255, 255, .06);
-    border-radius: 999px;
-    padding: 3px;
-  }
+  .seg { display: flex; background: rgba(255,255,255,.06); border-radius: 999px; padding: 3px; }
   .seg button {
-    border: 0;
-    background: transparent;
-    color: var(--muted);
-    font: inherit;
-    font-size: .8rem;
-    font-weight: 500;
-    padding: .38rem .95rem;
-    border-radius: 999px;
-    cursor: pointer;
+    border: 0; background: transparent; color: var(--muted);
+    font: inherit; font-size: .8rem; font-weight: 500;
+    padding: .38rem .95rem; border-radius: 999px; cursor: pointer;
     transition: background .18s, color .18s;
   }
   .seg button.active { background: var(--ink); color: #0a0a0c; }
 
   .station {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    padding: .72rem 0;
-    border-bottom: 1px solid var(--card-edge);
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 1rem; padding: .72rem 0; border-bottom: 1px solid var(--card-edge);
   }
   .station:last-of-type { border-bottom: 0; padding-bottom: 0; }
   .station .n { font-weight: 500; }
   .station .addr { color: var(--dim); font-size: .76rem; }
+  .station .closed {
+    font-size: .7rem; color: var(--dim);
+    border: 1px solid var(--card-edge); border-radius: 5px;
+    padding: 0 .35rem; margin-left: .4rem; white-space: nowrap;
+  }
   .station .price {
-    font-size: 1.15rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-    letter-spacing: -.01em;
+    font-size: 1.15rem; font-weight: 600; font-variant-numeric: tabular-nums;
+    white-space: nowrap; letter-spacing: -.01em;
   }
   .station .price small { font-size: .62em; color: var(--dim); font-weight: 400; }
   .station.best .price { color: var(--ice); }
@@ -201,38 +159,21 @@
 
   /* ---------- Spiele ---------- */
   a.game {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    text-decoration: none; color: inherit; cursor: pointer;
   }
   a.game:hover { border-color: var(--card-edge-hover); }
   .game .t { font-size: 1.05rem; font-weight: 600; letter-spacing: -.01em; }
   .game .s { color: var(--dim); font-size: .8rem; margin-top: .15rem; }
-  .game .arrow {
-    color: var(--dim);
-    font-size: 1.2rem;
-    transition: transform .2s, color .2s;
-  }
+  .game .arrow { color: var(--dim); font-size: 1.2rem; transition: transform .2s, color .2s; }
   a.game:hover .arrow { transform: translateX(4px); color: var(--ice); }
 
   /* ---------- Abschluss ---------- */
   .mark {
-    display: block;
-    width: min(200px, 50%);
-    margin: 2.2rem auto 0;
-    mix-blend-mode: screen;
-    opacity: .14;
+    display: block; width: min(200px, 50%); margin: 2.2rem auto 0;
+    mix-blend-mode: screen; opacity: .14;
   }
-
-  footer {
-    text-align: center;
-    color: var(--dim);
-    font-size: .72rem;
-    margin-top: .8rem;
-  }
+  footer { text-align: center; color: var(--dim); font-size: .72rem; margin-top: .8rem; }
 
   .loading { color: var(--dim); }
   .error { color: #c08a83; font-size: .9rem; }
@@ -249,7 +190,13 @@
   <div id="clock">--:--:--</div>
 </header>
 
-<section class="card hero" id="card-erbach"><div class="loading">Lade…</div></section>
+<div class="locbar">
+  <div class="current"><span class="pin">◎</span><span id="loclabel">Erbach · Odenwald</span></div>
+  <button class="locbtn" id="locbtn">Meinen Standort verwenden</button>
+  <div class="locnote" id="locnote"></div>
+</div>
+
+<section class="card hero" id="card-local"><div class="loading">Lade…</div></section>
 
 <section class="card mini" id="card-bihac"><div class="loading">Lade…</div></section>
 
@@ -275,13 +222,31 @@
 <img class="mark" src="/logo.png" alt="">
 
 <footer>
-  Wetter: open-meteo.com · Sprit: Tankerkönig / MTS-K (CC BY 4.0) · aktualisiert alle 15 Min.
+  Wetter: open-meteo.com · Sprit: Tankerkönig / MTS-K (CC BY 4.0) · aktualisiert alle 15 Min.<br>
+  Standortdaten werden nur im Browser verwendet und nicht gespeichert.
 </footer>
 
 </div>
 
 <script>
-const SYM = { sun: '\u2600\uFE0E', cloud: '\u2601\uFE0E', rain: '\u2602\uFE0E', snow: '\u2744\uFE0E', bolt: '\u26A1\uFE0E' };
+/* =========================================================
+   Standort — Erbach ist Standard, Wechsel nur auf Klick.
+   Position bleibt im Speicher, wird nirgends abgelegt.
+   ========================================================= */
+
+const ERBACH = { lat: 49.6558, lon: 8.9944, tz: 'Europe/Berlin', label: 'Erbach · Odenwald' };
+let place = { ...ERBACH };
+let usingGeo = false;
+
+/* Fremddaten immer escapen, bevor sie per innerHTML in die Seite gehen. */
+function esc(v) {
+  return String(v ?? '').replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+/* ---------- Wetter ---------- */
+
+const SYM = { sun:'\u2600\uFE0E', cloud:'\u2601\uFE0E', rain:'\u2602\uFE0E', snow:'\u2744\uFE0E', bolt:'\u26A1\uFE0E' };
 
 const WMO = {
   0:[SYM.sun,'Klar'],1:[SYM.sun,'Überw. klar'],2:[SYM.cloud,'Teils bewölkt'],3:[SYM.cloud,'Bedeckt'],
@@ -300,11 +265,10 @@ const aqiText = v =>
   v == null ? null :
   v <= 20 ? 'gut' : v <= 40 ? 'okay' : v <= 60 ? 'mäßig' : v <= 80 ? 'schlecht' : 'sehr schlecht';
 
-function fmtTime(iso, tz) {
-  return new Date(iso).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: tz });
-}
+const fmtTime = (iso, tz) =>
+  new Date(iso).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit', timeZone: tz });
 
-async function fetchCity(lat, lon, tz) {
+async function fetchWeather(lat, lon, tz) {
   const wURL = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`
     + `&current=temperature_2m,apparent_temperature,relative_humidity_2m,weather_code,wind_speed_10m`
     + `&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset`
@@ -317,12 +281,13 @@ async function fetchCity(lat, lon, tz) {
   return { w, aqi: a?.current?.european_aqi ?? null };
 }
 
-async function loadErbach() {
-  const el = document.getElementById('card-erbach');
+async function loadLocal() {
+  const el = document.getElementById('card-local');
   try {
-    const { w, aqi } = await fetchCity(49.6558, 8.9944, 'Europe/Berlin');
+    const { w, aqi } = await fetchWeather(place.lat, place.lon, place.tz);
     const cur = w.current, d = w.daily;
     const [, desc] = wmo(cur.weather_code);
+    const tz = w.timezone || place.tz;
 
     const days = d.time.map((t, i) => {
       const [sym] = wmo(d.weather_code[i]);
@@ -333,7 +298,7 @@ async function loadErbach() {
     el.innerHTML = `
       <div class="top">
         <div>
-          <div class="cardlabel">Erbach · Odenwald</div>
+          <div class="cardlabel">${esc(place.label)}</div>
           <div class="temp">${Math.round(cur.temperature_2m)}°</div>
           <div class="cond">${desc} · gefühlt ${Math.round(cur.apparent_temperature)}°</div>
         </div>
@@ -341,19 +306,19 @@ async function loadErbach() {
           Wind <b>${Math.round(cur.wind_speed_10m)} km/h</b><br>
           Feuchte <b>${cur.relative_humidity_2m}%</b><br>
           ${aqi != null ? `Luft <b>${aqiText(aqi)}</b><br>` : ''}
-          ↑ <b>${fmtTime(d.sunrise[0], 'Europe/Berlin')}</b> · ↓ <b>${fmtTime(d.sunset[0], 'Europe/Berlin')}</b>
+          ↑ <b>${fmtTime(d.sunrise[0], tz)}</b> · ↓ <b>${fmtTime(d.sunset[0], tz)}</b>
         </div>
       </div>
       <div class="forecast">${days}</div>`;
   } catch {
-    el.innerHTML = '<div class="cardlabel">Erbach</div><div class="error">Daten konnten nicht geladen werden.</div>';
+    el.innerHTML = `<div class="cardlabel">${esc(place.label)}</div><div class="error">Daten konnten nicht geladen werden.</div>`;
   }
 }
 
 async function loadBihac() {
   const el = document.getElementById('card-bihac');
   try {
-    const { w } = await fetchCity(44.8169, 15.8708, 'Europe/Sarajevo');
+    const { w } = await fetchWeather(44.8169, 15.8708, 'Europe/Sarajevo');
     const cur = w.current, d = w.daily;
     const [, desc] = wmo(cur.weather_code);
 
@@ -383,77 +348,177 @@ function tick() {
   });
 }
 
-/* ---------- Sprit ---------- */
+/* =========================================================
+   Sprit — EIN Abruf liefert alle drei Sorten.
+   Tab-Wechsel rendert nur neu, ohne weitere Anfrage.
+   ========================================================= */
 
 let currentFuel = 'e5';
+let fuelData = null;      // zuletzt geladene Stationen
+let fuelPending = false;  // verhindert parallele Abrufe
+
+const FUEL_LABEL = { e5: 'E5', e10: 'E10', diesel: 'Diesel' };
 
 function renderFuelCard() {
-  const el = document.getElementById('card-fuel');
-  el.innerHTML = `
+  document.getElementById('card-fuel').innerHTML = `
     <div class="fuelhead">
-      <span class="cardlabel">Sprit · Erbach, 5 km</span>
-      <span class="seg">
+      <span class="cardlabel" id="fuel-label">Sprit · 5 km Umkreis</span>
+      <span class="seg" id="fuel-seg">
         <button class="active" data-fuel="e5">E5</button>
         <button data-fuel="e10">E10</button>
         <button data-fuel="diesel">Diesel</button>
       </span>
     </div>
-    <div id="fuel-stations"></div>
+    <div id="fuel-stations"><div class="loading">Lade…</div></div>
     <div class="attribution" id="fuel-attribution"></div>`;
 
-  el.querySelectorAll('.seg button').forEach(btn => {
+  document.querySelectorAll('#fuel-seg button').forEach(btn => {
     btn.addEventListener('click', () => {
       currentFuel = btn.dataset.fuel;
-      el.querySelectorAll('.seg button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#fuel-seg button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      loadFuel();
+      renderStations();       // kein neuer Abruf
     });
   });
 }
 
-async function loadFuel() {
+function renderStations() {
   const box = document.getElementById('fuel-stations');
-  box.innerHTML = '<div class="loading">Lade…</div>';
+  if (!fuelData) return;
+
+  const list = fuelData.stations
+    .filter(s => s.prices[currentFuel] != null)
+    .sort((a, b) => a.prices[currentFuel] - b.prices[currentFuel])
+    .slice(0, 6);
+
+  if (!list.length) {
+    box.innerHTML = `<div class="loading">Keine ${FUEL_LABEL[currentFuel]}-Preise in diesem Umkreis.</div>`;
+    return;
+  }
+
+  box.innerHTML = list.map((s, i) => `
+    <div class="station${i === 0 ? ' best' : ''}">
+      <div>
+        <div class="n">${esc(s.name)}${s.isOpen ? '' : '<span class="closed">geschlossen</span>'}</div>
+        <div class="addr">${esc(s.street)}${s.place ? ', ' + esc(s.place) : ''} · ${esc(s.distKm)} km</div>
+      </div>
+      <div class="price">${s.prices[currentFuel].toFixed(3)}<small> €/L</small></div>
+    </div>`).join('');
+}
+
+async function loadFuel() {
+  if (fuelPending) return;
+  fuelPending = true;
+
+  const box = document.getElementById('fuel-stations');
+  if (!fuelData) box.innerHTML = '<div class="loading">Lade…</div>';
+
   try {
-    const res = await fetch('/api/fuel-prices?fuel=' + currentFuel + '&radius=5');
+    let url = '/api/fuel-prices?radius=5';
+    if (usingGeo) url += `&lat=${place.lat.toFixed(2)}&lng=${place.lon.toFixed(2)}`;
+
+    const res = await fetch(url);
     const data = await res.json();
 
     if (!data.ok) {
-      box.innerHTML = '<div class="loading">Noch nicht verfügbar.</div>';
+      box.innerHTML = data.error === 'rate_limited'
+        ? '<div class="loading">Kurz zu viele Abfragen — bitte gleich nochmal.</div>'
+        : '<div class="loading">Spritpreise gerade nicht verfügbar.</div>';
       return;
     }
 
-    const stations = data.stations.filter(s => s.price != null).slice(0, 6);
-    const rows = stations
-      .map((s, i) => `
-        <div class="station${i === 0 ? ' best' : ''}">
-          <div>
-            <div class="n">${s.name}</div>
-            <div class="addr">${s.street}, ${s.place} · ${s.distKm} km</div>
-          </div>
-          <div class="price">${s.price.toFixed(3)}<small> €/L</small></div>
-        </div>`)
-      .join('');
-
-    box.innerHTML = rows || '<div class="loading">Keine Preise gerade verfügbar.</div>';
-    document.getElementById('fuel-attribution').textContent = data.attribution;
+    fuelData = data;
+    renderStations();
+    document.getElementById('fuel-label').textContent =
+      `Sprit · ${data.radiusKm} km Umkreis`;
+    document.getElementById('fuel-attribution').textContent =
+      `${data.attribution} · Stand ${fmtTime(data.fetchedAt, 'Europe/Berlin')} Uhr`;
   } catch {
     box.innerHTML = '<div class="error">Daten konnten nicht geladen werden.</div>';
+  } finally {
+    fuelPending = false;
   }
 }
 
-/* ---------- Start ---------- */
+/* =========================================================
+   Standort umschalten
+   ========================================================= */
 
-loadErbach();
+const locBtn = document.getElementById('locbtn');
+const locNote = document.getElementById('locnote');
+const locLabel = document.getElementById('loclabel');
+
+function note(text, warn) {
+  locNote.textContent = text || '';
+  locNote.classList.toggle('warn', !!warn);
+}
+
+function useErbach() {
+  place = { ...ERBACH };
+  usingGeo = false;
+  fuelData = null;
+  locLabel.textContent = ERBACH.label;
+  locBtn.textContent = 'Meinen Standort verwenden';
+  locBtn.classList.remove('active');
+  note('');
+  loadLocal();
+  loadFuel();
+}
+
+function requestLocation() {
+  if (!navigator.geolocation) {
+    note('Dein Browser unterstützt keine Standortbestimmung.', true);
+    return;
+  }
+  locBtn.disabled = true;
+  locBtn.textContent = 'Suche Standort…';
+  note('');
+
+  navigator.geolocation.getCurrentPosition(
+    pos => {
+      place = { lat: pos.coords.latitude, lon: pos.coords.longitude, tz: 'auto', label: 'Dein Standort' };
+      usingGeo = true;
+      fuelData = null;
+      locBtn.disabled = false;
+      locLabel.textContent = 'Dein Standort';
+      locBtn.textContent = 'Zurück zu Erbach';
+      locBtn.classList.add('active');
+      note('Position wird nur für diese Ansicht genutzt und nicht gespeichert.');
+      loadLocal();
+      loadFuel();
+    },
+    err => {
+      locBtn.disabled = false;
+      locBtn.textContent = 'Meinen Standort verwenden';
+      note(
+        err.code === err.PERMISSION_DENIED
+          ? 'Standortfreigabe abgelehnt — es wird weiter Erbach angezeigt.'
+          : 'Standort konnte nicht ermittelt werden — es wird weiter Erbach angezeigt.',
+        true
+      );
+    },
+    { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+  );
+}
+
+locBtn.addEventListener('click', () => usingGeo ? useErbach() : requestLocation());
+
+/* =========================================================
+   Start
+   ========================================================= */
+
+loadLocal();
 loadBihac();
-setInterval(() => { loadErbach(); loadBihac(); }, 15 * 60 * 1000);
+setInterval(() => { loadLocal(); loadBihac(); }, 15 * 60 * 1000);
 
 tick();
 setInterval(tick, 1000);
 
 renderFuelCard();
 loadFuel();
-setInterval(loadFuel, 15 * 60 * 1000);
+/* zufälliger Versatz von 0-30 s, damit nicht alle offenen Tabs
+   gleichzeitig auf die volle Viertelstunde abfragen */
+setTimeout(() => setInterval(loadFuel, 15 * 60 * 1000), Math.random() * 30000);
 </script>
 </body>
 </html>
